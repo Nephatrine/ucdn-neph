@@ -3,6 +3,17 @@ sudo: false
 compiler: gcc
 os: linux
 
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake
+      - cmake-data
+
+cache:
+  apt: true
+
 script:
   - mkdir build
   - cd build
