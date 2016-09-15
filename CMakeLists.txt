@@ -25,12 +25,30 @@ list(APPEND UCDN_SOURCE
 list(APPEND UCDN_HEADERS
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/ucdn.h")
 
+list(APPEND UCDN_TEST_SOURCE
+	"${CMAKE_CURRENT_SOURCE_DIR}/ucdn-test.c")
+
 # ------------------------------
 # Configuration
 #
 
+include(WhatEver-Config-C)
+
+we_config_require_standard(C 99)
+
 if(NOT MSVC)
-	add_definitions(-O2 -Wall -Werror -pedantic -std=c89)
+	option(BUILD_ALLOW_SHLIB_UNDEFINED "Enable if you have an old janky binutils." OFF)
+
+	we_config_has_cflags(UCDN_CFLAGS -Wall -Werror -pedantic -march=native)
+	we_config_has_ldflags(UCDN_LDFLAGS -Wl,--as-needed -Wl,--no-undefined)
+
+	if(NOT BUILD_ALLOW_SHLIB_UNDEFINED)
+		we_config_has_ldflags(UCDN_LDFLAGS -Wl,--no-allow-shlib-undefined)
+	endif()
+
+	if(WIN32)
+		we_config_has_ldflags(UCDN_LDFLAGS -Wl,--nxcompat -Wl,--dynamicbase -Wl,--high-entropy-va)
+	endif()
 endif()
 
 # ------------------------------
@@ -50,8 +68,13 @@ if(BUILD_SHARED_LIBS)
 	set_target_properties(ucdn PROPERTIES SOVERSION ${UCDN_SOVERSION})
 endif()
 
-add_executable(ucdn-test ucdn-test.c)
+add_executable(ucdn-test ${UCDN_TEST_SOURCE})
 target_link_libraries(ucdn-test ucdn)
+
+we_target_add_cflags(ucdn ucdn-test
+	PRIVATE ${UCDN_CFLAGS})
+we_target_add_ldflags(ucdn ucdn-test
+	PRIVATE ${UCDN_LDFLAGS})
 
 # ------------------------------
 # Install Targets
