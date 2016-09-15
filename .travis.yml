@@ -1,6 +1,10 @@
 language: c
 sudo: false
-compiler: gcc
+
+compiler:
+  - gcc
+  - clang
+
 os: linux
 
 addons:
@@ -10,6 +14,11 @@ addons:
     packages:
       - cmake
       - cmake-data
+
+matrix:
+  allow_failures:
+    - compiler: clang
+  fast_finish: true
 
 cache:
   apt: true
