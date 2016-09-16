@@ -13,7 +13,7 @@ project(ucdn
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/config/CMake")
 
 set(UCDN_SOVERSION "${PROJECT_VERSION_MAJOR}")
-set(UCDN_TAG_NAME "-neph")
+set(UCDN_TAG_NAME "_neph")
 
 # ------------------------------
 # Source Code
@@ -57,16 +57,25 @@ endif()
 
 include(WhatEver-Targets)
 
-we_target_build_library(UCDN_TARGET ucdn ${UCDN_SOVERSION}
+option(BUILD_UCDN_SHARED "Build UCDN Shared Library" ON)
+option(BUILD_UCDN_STATIC "Build UCDN Static Library" ON)
+	
+we_target_build_library(UCDN_TARGET ${PROJECT_NAME} ${UCDN_SOVERSION}
 	${UCDN_SOURCE} ${UCDN_HEADERS}
 	EXPORT include
 	TAG ${UCDN_TAG_NAME})
 
 add_executable(ucdn-test ${UCDN_TEST_SOURCE})
-target_link_libraries(ucdn-test ${UCDN_TARGET})
+target_link_libraries(ucdn-test ${PROJECT_NAME})
 
 we_target_add_cflags(${UCDN_TARGET} ucdn-test
 	PRIVATE ${UCDN_CFLAGS})
 we_target_add_ldflags(${UCDN_TARGET} ucdn-test
 	PRIVATE ${UCDN_LDFLAGS})
+
+# ------------------------------
+# Export Targets
+#
+
+we_target_export(${UCDN_TAG_NAME})
 
