@@ -5,7 +5,9 @@ compiler:
   - gcc
   - clang
 
-os: linux
+os:
+  - linux
+  - osx
 
 addons:
   apt:
@@ -17,15 +19,20 @@ addons:
 
 matrix:
   allow_failures:
-    - compiler: clang
+    - os: osx
   fast_finish: true
 
 cache:
   apt: true
+
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated cmake --verbose || brew upgrade cmake; fi
 
 script:
   - mkdir build
   - cd build
   - cmake --DCMAKE_BUILD_TYPE=Release ..
   - make
+  - ls
 
