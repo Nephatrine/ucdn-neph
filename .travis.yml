@@ -35,7 +35,7 @@ install:
 script:
   - mkdir build
   - cd build
-  - cmake --DCMAKE_BUILD_TYPE=Release ..
+  - cmake -DBUILD_ALLOW_SHLIB_UNDEFINED=ON -DCMAKE_BUILD_TYPE=Release ..
   - make
   - ls
 
