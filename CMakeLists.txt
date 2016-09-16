@@ -37,7 +37,7 @@ include(WhatEver-Config-C)
 we_config_require_standard(C 99)
 
 if(NOT MSVC)
-	option(BUILD_ALLOW_SHLIB_UNDEFINED "Enable if you have an old janky binutils." OFF)
+	option(BUILD_ALLOW_SHLIB_UNDEFINED "enable if your system spits out linker errors" OFF)
 
 	we_config_has_cflags(UCDN_CFLAGS -Wall -Werror -pedantic -march=native)
 	we_config_has_ldflags(UCDN_LDFLAGS -Wl,--as-needed -Wl,--no-undefined)
@@ -64,13 +64,16 @@ we_target_build_library(UCDN_TARGET ${PROJECT_NAME} ${UCDN_SOVERSION}
 	${UCDN_SOURCE} ${UCDN_HEADERS}
 	EXPORT include
 	TAG ${UCDN_TAG_NAME})
+we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test"
+	${UCDN_TEST_SOURCE}
+	LIBS ${UCDN_TARGET_SHARED})
+we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test-static"
+	${UCDN_TEST_SOURCE}
+	LIBS ${UCDN_TARGET_STATIC})
 
-add_executable(ucdn-test ${UCDN_TEST_SOURCE})
-target_link_libraries(ucdn-test ${PROJECT_NAME})
-
-we_target_add_cflags(${UCDN_TARGET} ucdn-test
+we_target_add_cflags(${UCDN_TARGET}
 	PRIVATE ${UCDN_CFLAGS})
-we_target_add_ldflags(${UCDN_TARGET} ucdn-test
+we_target_add_ldflags(${UCDN_TARGET}
 	PRIVATE ${UCDN_LDFLAGS})
 
 # ------------------------------
