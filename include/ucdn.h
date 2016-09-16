@@ -22,6 +22,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include "ucdn_api.h"
 
 #define UCDN_EAST_ASIAN_F 0
 #define UCDN_EAST_ASIAN_H 1
@@ -274,7 +275,7 @@ extern "C" {
  *
  * @return Unicode database version
  */
-const char *ucdn_get_unicode_version(void);
+UCDN_EXPORT const char *ucdn_get_unicode_version(void);
 
 /**
  * Get combining class of a codepoint.
@@ -282,7 +283,7 @@ const char *ucdn_get_unicode_version(void);
  * @param code Unicode codepoint
  * @return combining class value, as defined in UAX#44
  */
-int ucdn_get_combining_class(uint32_t code);
+UCDN_EXPORT int ucdn_get_combining_class(uint32_t code);
 
 /**
  * Get east-asian width of a codepoint.
@@ -290,7 +291,7 @@ int ucdn_get_combining_class(uint32_t code);
  * @param code Unicode codepoint
  * @return value according to UCDN_EAST_ASIAN_* and as defined in UAX#11.
  */
-int ucdn_get_east_asian_width(uint32_t code);
+UCDN_EXPORT int ucdn_get_east_asian_width(uint32_t code);
 
 /**
  * Get general category of a codepoint.
@@ -299,7 +300,7 @@ int ucdn_get_east_asian_width(uint32_t code);
  * @return value according to UCDN_GENERAL_CATEGORY_* and as defined in
  * UAX#44.
  */
-int ucdn_get_general_category(uint32_t code);
+UCDN_EXPORT int ucdn_get_general_category(uint32_t code);
 
 /**
  * Get bidirectional class of a codepoint.
@@ -307,7 +308,7 @@ int ucdn_get_general_category(uint32_t code);
  * @param code Unicode codepoint
  * @return value according to UCDN_BIDI_CLASS_* and as defined in UAX#44.
  */
-int ucdn_get_bidi_class(uint32_t code);
+UCDN_EXPORT int ucdn_get_bidi_class(uint32_t code);
 
 /**
  * Get script of a codepoint.
@@ -315,7 +316,7 @@ int ucdn_get_bidi_class(uint32_t code);
  * @param code Unicode codepoint
  * @return value according to UCDN_SCRIPT_* and as defined in UAX#24.
  */
-int ucdn_get_script(uint32_t code);
+UCDN_EXPORT int ucdn_get_script(uint32_t code);
 
 /**
  * Get unresolved linebreak class of a codepoint. This does not take
@@ -325,7 +326,7 @@ int ucdn_get_script(uint32_t code);
  * @param code Unicode codepoint
  * @return value according to UCDN_LINEBREAK_* and as defined in UAX#14.
  */
-int ucdn_get_linebreak_class(uint32_t code);
+UCDN_EXPORT int ucdn_get_linebreak_class(uint32_t code);
 
 /**
  * Get resolved linebreak class of a codepoint. This resolves characters
@@ -336,7 +337,7 @@ int ucdn_get_linebreak_class(uint32_t code);
  * @param code Unicode codepoint
  * @return value according to UCDN_LINEBREAK_* and as defined in UAX#14.
  */
-int ucdn_get_resolved_linebreak_class(uint32_t code);
+UCDN_EXPORT int ucdn_get_resolved_linebreak_class(uint32_t code);
 
 /**
  * Check if codepoint can be mirrored.
@@ -344,7 +345,7 @@ int ucdn_get_resolved_linebreak_class(uint32_t code);
  * @param code Unicode codepoint
  * @return 1 if mirrored character exists, otherwise 0
  */
-int ucdn_get_mirrored(uint32_t code);
+UCDN_EXPORT int ucdn_get_mirrored(uint32_t code);
 
 /**
  * Mirror a codepoint.
@@ -353,7 +354,7 @@ int ucdn_get_mirrored(uint32_t code);
  * @return mirrored codepoint or the original codepoint if no
  * mirrored character exists
  */
-uint32_t ucdn_mirror(uint32_t code);
+UCDN_EXPORT uint32_t ucdn_mirror(uint32_t code);
 
 /**
  * Get paired bracket for a codepoint.
@@ -362,7 +363,7 @@ uint32_t ucdn_mirror(uint32_t code);
  * @return paired bracket codepoint or the original codepoint if no
  * paired bracket character exists
  */
-uint32_t ucdn_paired_bracket(uint32_t code);
+UCDN_EXPORT uint32_t ucdn_paired_bracket(uint32_t code);
 
 /**
  * Get paired bracket type for a codepoint.
@@ -372,7 +373,7 @@ uint32_t ucdn_paired_bracket(uint32_t code);
  * in UAX#9.
  *
  */
-int ucdn_paired_bracket_type(uint32_t code);
+UCDN_EXPORT int ucdn_paired_bracket_type(uint32_t code);
 
 /**
  * Pairwise canonical decomposition of a codepoint. This includes
@@ -387,7 +388,7 @@ int ucdn_paired_bracket_type(uint32_t code);
  * @param b filled with second codepoint of decomposition, or 0
  * @return success
  */
-int ucdn_decompose(uint32_t code, uint32_t *a, uint32_t *b);
+UCDN_EXPORT int ucdn_decompose(uint32_t code, uint32_t *a, uint32_t *b);
 
 /**
  * Compatibility decomposition of a codepoint.
@@ -397,7 +398,7 @@ int ucdn_decompose(uint32_t code, uint32_t *a, uint32_t *b);
  * characters
  * @return length of decomposition or 0 in case none exists
  */
-int ucdn_compat_decompose(uint32_t code, uint32_t *decomposed);
+UCDN_EXPORT int ucdn_compat_decompose(uint32_t code, uint32_t *decomposed);
 
 /**
  * Pairwise canonical composition of two codepoints. This includes
@@ -413,7 +414,7 @@ int ucdn_compat_decompose(uint32_t code, uint32_t *decomposed);
  * @param b second codepoint
  * @return success
  */
-int ucdn_compose(uint32_t *code, uint32_t a, uint32_t b);
+UCDN_EXPORT int ucdn_compose(uint32_t *code, uint32_t a, uint32_t b);
 
 #ifdef __cplusplus
 }
