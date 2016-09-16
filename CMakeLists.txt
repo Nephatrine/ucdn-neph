@@ -12,7 +12,7 @@ project(ucdn
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/config/CMake")
 
-set(UCDN_SOVERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}")
+set(UCDN_SOVERSION "${PROJECT_VERSION_MAJOR}")
 set(UCDN_TAG_NAME "-neph")
 
 # ------------------------------
@@ -57,30 +57,16 @@ endif()
 
 include(WhatEver-Targets)
 
-add_library(ucdn ${UCDN_SOURCE} ${UCDN_HEADERS})
-
-we_target_add_paths(ucdn
-	PUBLIC include
-	INSTALL_TAG ${UCDN_TAG_NAME})
-
-if(BUILD_SHARED_LIBS)
-	set_target_properties(ucdn PROPERTIES VERSION ${PROJECT_VERSION})
-	set_target_properties(ucdn PROPERTIES SOVERSION ${UCDN_SOVERSION})
-endif()
+we_target_build_library(UCDN_TARGET ucdn ${UCDN_SOVERSION}
+	${UCDN_SOURCE} ${UCDN_HEADERS}
+	EXPORT include
+	TAG ${UCDN_TAG_NAME})
 
 add_executable(ucdn-test ${UCDN_TEST_SOURCE})
-target_link_libraries(ucdn-test ucdn)
+target_link_libraries(ucdn-test ${UCDN_TARGET})
 
-we_target_add_cflags(ucdn ucdn-test
+we_target_add_cflags(${UCDN_TARGET} ucdn-test
 	PRIVATE ${UCDN_CFLAGS})
-we_target_add_ldflags(ucdn ucdn-test
+we_target_add_ldflags(${UCDN_TARGET} ucdn-test
 	PRIVATE ${UCDN_LDFLAGS})
-
-# ------------------------------
-# Install Targets
-#
-
-install(TARGETS ucdn
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib)
 
