@@ -82,3 +82,9 @@ we_target_add_ldflags(${UCDN_TARGET}
 
 we_target_export(${UCDN_TAG_NAME})
 
+# ------------------------------
+# Package Targets
+#
+
+include(CPack)
+
