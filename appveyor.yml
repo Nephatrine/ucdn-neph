@@ -22,7 +22,7 @@ build_script:
 
 artifacts:
   - path: .\output32\
-    name: ucdn_we-vc14-x86
+    name: ucdn_neph-vc14-x86
   - path: .\output64\
-    name: ucdn_we-vc14-x86_64
+    name: ucdn_neph-vc14-x86_64
 
