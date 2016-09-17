@@ -18,14 +18,17 @@ composition/decomposition and compatibility decomposition). More
 functionality might be provided in the future, such as additional
 properties, string normalization and encoding conversion.
 
-UCDN is published under the [ISC license](LICENSE.md). The Python script
-required for parsing Unicode database files is licensed under the
-[PSF license](PYTHON-LICENSE).
+**Copyright Information:**
 
-UCDN was written by [Grigori Goronzy](https://github.com/grigorig)
-<greg@kinoho.net>.
+UCDN was written by [Grigori Goronzy](https://github.com/grigorig) <<greg@kinoho.net>>.
 
-* [UCDN Upstream](https://github.com/grigorig/ucdn)
+* UCDN is published under the [ISC license](LICENSE.md).
+* The Python script required for parsing Unicode database files is licensed
+  under the [PSF license](PYTHON-LICENSE).
+
+**Other Links:**
+
+* [Upstream @ GitHub](https://github.com/grigorig/ucdn)
 
 ## Building
 
