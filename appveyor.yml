@@ -21,6 +21,6 @@ build_script:
   - msbuild PACKAGE.vcxproj /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 after_build:
-  - ps: Get-ChildItem .\build32\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem .\build64\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+    - ps: Get-ChildItem $Env:APPVEYOR_BUILD_FOLDER\build32\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem $Env:APPVEYOR_BUILD_FOLDER\build64\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
