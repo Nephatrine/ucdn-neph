@@ -56,7 +56,7 @@ endif()
 #
 
 include(WhatEver-Generate)
-find_package(PythonInterp 3 REQUIRED)
+find_package(PythonInterp 2.7 REQUIRED)
 
 we_generate_from_script(UCDN_GENERATED makeunicodedata.py include/internal/unicodedata_db.h)
 

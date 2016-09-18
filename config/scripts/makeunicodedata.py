@@ -27,11 +27,19 @@
 # written by Fredrik Lundh (fredrik@pythonware.com)
 #
 
+from __future__ import print_function
+
 import os
 import sys
 import zipfile
 
 from textwrap import dedent
+
+if sys.version_info[0] < 3:
+    from codecs import open
+    from urllib import urlretrieve
+else:
+    from urllib.request import urlretrieve
 
 SCRIPT = sys.argv[0]
 VERSION = "3.2"
@@ -975,13 +983,12 @@ def merge_old_version(version, new, old):
 def open_data(template, version):
     local = template % ('-'+version,)
     if not os.path.exists(local):
-        import urllib.request
         if version == '3.2.0':
             # irregular url structure
             url = 'http://www.unicode.org/Public/3.2-Update/' + local
         else:
             url = ('http://www.unicode.org/Public/%s/ucd/'+template) % (version, '')
-        urllib.request.urlretrieve(url, filename=local)
+        urlretrieve(url, filename=local)
     if local.endswith('.txt'):
         return open(local, encoding='utf-8')
     else:
