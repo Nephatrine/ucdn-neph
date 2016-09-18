@@ -1,6 +1,11 @@
 version: 1.0.0.{build}-{branch}
 image: Visual Studio 2015
 
+environment:
+  matrix:
+    - PYTHON: "C:\\Python33"
+      PYTHON_VERSION: 3.3
+
 pull_requests:
   do_not_increment_build_number: true
 
