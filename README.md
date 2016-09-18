@@ -35,6 +35,7 @@ UCDN was written by [Grigori Goronzy](https://github.com/grigorig) <<greg@kinoho
 **Requires**
 
 * CMake 3.2+
+* Python 3+
 
 Build steps are bog-standard CMake and so a minimal example would be:
 

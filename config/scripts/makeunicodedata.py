@@ -36,6 +36,14 @@ from textwrap import dedent
 SCRIPT = sys.argv[0]
 VERSION = "3.2"
 
+# allow specifying output name/location
+if len(sys.argv) > 1:
+    GENFILE = sys.argv[1]
+    if not os.path.exists(os.path.dirname(GENFILE)):
+        os.makedirs(os.path.dirname(GENFILE))
+else:
+    GENFILE = "unicodedata_db.h"
+
 # The Unicode Database
 UNIDATA_VERSION = "9.0.0"
 UNICODE_DATA = "UnicodeData%s.txt"
@@ -173,7 +181,7 @@ def makeunicodedata(unicode, trace):
     cache = {0: dummy}
     index = [0] * len(unicode.chars)
 
-    FILE = "unicodedata_db.h"
+    FILE = GENFILE
 
     print("--- Preparing", FILE, "...")
 

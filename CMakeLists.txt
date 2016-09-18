@@ -51,6 +51,15 @@ if(NOT MSVC)
 	endif()
 endif()
 
+#
+# Generated Data
+#
+
+include(WhatEver-Generate)
+find_package(PythonInterp 3 REQUIRED)
+
+we_generate_from_script(UCDN_GENERATED makeunicodedata.py include/internal/unicodedata_db.h)
+
 # ------------------------------
 # Define Targets
 #
@@ -61,7 +70,7 @@ option(BUILD_UCDN_SHARED "Build UCDN Shared Library" ON)
 option(BUILD_UCDN_STATIC "Build UCDN Static Library" ON)
 	
 we_target_build_library(UCDN_TARGET ${PROJECT_NAME} ${UCDN_SOVERSION}
-	${UCDN_SOURCE} ${UCDN_HEADERS}
+	${UCDN_SOURCE} ${UCDN_HEADERS} ${UCDN_GENERATED}
 	EXPORT include
 	TAG ${UCDN_TAG_NAME})
 we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test"
