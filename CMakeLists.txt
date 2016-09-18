@@ -76,15 +76,15 @@ we_target_add_cflags(${UCDN_TARGET}
 we_target_add_ldflags(${UCDN_TARGET}
 	PRIVATE ${UCDN_LDFLAGS})
 
-# ------------------------------
-# Export Targets
-#
-
 we_target_export(${UCDN_TAG_NAME})
 
 # ------------------------------
 # Package Targets
 #
 
-include(CPack)
+include(WhatEver-Package)
+we_package(${UCDN_TAG_NAME}
+	CATEGORY devel DESC "Unicode Database & Normalization"
+	VENDOR Nephatrine CONTACT nephatrine@gmail.com
+	HOME https://github.com/Nephatrine/ucdn-neph)
 
