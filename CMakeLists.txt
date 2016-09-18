@@ -58,7 +58,27 @@ endif()
 include(WhatEver-Generate)
 find_package(PythonInterp 2.7 REQUIRED)
 
-we_generate_from_script(UCDN_GENERATED makeunicodedata.py include/internal/unicodedata_db.h)
+set(UCDN_UNICODE_VERSION "9.0.0" CACHE STRING "Unicode Data Version")
+
+we_download_unicode(UCDN_UNICODE_FILES ${UCDN_UNICODE_VERSION}
+	BidiBrackets.txt
+	BidiMirroring.txt
+	CaseFolding.txt
+	CompositionExclusions.txt
+	DerivedCoreProperties.txt
+	DerivedNormalizationProps.txt
+	EastAsianWidth.txt
+	LineBreak.txt
+	NameAliases.txt
+	NamedSequences.txt
+	Scripts.txt
+	SpecialCasing.txt
+	UnicodeData.txt
+	Unihan.zip)
+
+we_generate_from_script(UCDN_GENERATED makeunicodedata.py
+	include/internal/unicodedata_db.h ${WHATEVER_CACHE_DIR} ${UCDN_UNICODE_VERSION}
+	DEPENDS ${UCDN_UNICODE_FILES})
 
 # ------------------------------
 # Define Targets

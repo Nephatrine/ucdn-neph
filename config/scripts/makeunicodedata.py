@@ -37,9 +37,6 @@ from textwrap import dedent
 
 if sys.version_info[0] < 3:
     from codecs import open
-    from urllib import urlretrieve
-else:
-    from urllib.request import urlretrieve
 
 SCRIPT = sys.argv[0]
 VERSION = "3.2"
@@ -52,8 +49,18 @@ if len(sys.argv) > 1:
 else:
     GENFILE = "unicodedata_db.h"
 
+if len(sys.argv) > 2:
+    DOWNLOADS = sys.argv[2]
+else:
+    DOWNLOADS = "."
+
+# specify unicode version
+if len(sys.argv) > 3:
+    UNIDATA_VERSION = sys.argv[3]
+else:
+    UNIDATA_VERSION = "9.0.0"
+
 # The Unicode Database
-UNIDATA_VERSION = "9.0.0"
 UNICODE_DATA = "UnicodeData%s.txt"
 COMPOSITION_EXCLUSIONS = "CompositionExclusions%s.txt"
 EASTASIAN_WIDTH = "EastAsianWidth%s.txt"
@@ -982,13 +989,7 @@ def merge_old_version(version, new, old):
 
 def open_data(template, version):
     local = template % ('-'+version,)
-    if not os.path.exists(local):
-        if version == '3.2.0':
-            # irregular url structure
-            url = 'http://www.unicode.org/Public/3.2-Update/' + local
-        else:
-            url = ('http://www.unicode.org/Public/%s/ucd/'+template) % (version, '')
-        urlretrieve(url, filename=local)
+    local = DOWNLOADS + "/" + local
     if local.endswith('.txt'):
         return open(local, encoding='utf-8')
     else:
