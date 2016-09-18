@@ -20,13 +20,13 @@ set(UCDN_TAG_NAME "_neph")
 #
 
 list(APPEND UCDN_SOURCE
-	"${CMAKE_CURRENT_SOURCE_DIR}/ucdn.c")
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/ucdn.c")
 
 list(APPEND UCDN_HEADERS
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/ucdn.h")
 
 list(APPEND UCDN_TEST_SOURCE
-	"${CMAKE_CURRENT_SOURCE_DIR}/ucdn-test.c")
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/ucdn-test.c")
 
 # ------------------------------
 # Configuration
