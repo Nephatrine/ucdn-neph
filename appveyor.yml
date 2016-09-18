@@ -23,5 +23,7 @@ build_script:
 
 after_build:
   - ps: Get-ChildItem .\build32\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem .\build32\ucdn*.exe | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem .\build64\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem .\build64\ucdn*.exe | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
