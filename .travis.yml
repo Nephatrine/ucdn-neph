@@ -27,6 +27,8 @@ matrix:
 
 cache:
   apt: true
+  directories:
+    - $HOME/.whatever
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
@@ -35,7 +37,8 @@ install:
 script:
   - mkdir build
   - cd build
-  - cmake -DBUILD_ALLOW_SHLIB_UNDEFINED=ON -DCMAKE_BUILD_TYPE=Release ..
+  - cmake -DBUILD_ALLOW_SHLIB_UNDEFINED=ON -DCMAKE_BUILD_TYPE=Release -DWHATEVER_CACHE_DIRECTORY="${HOME}/.whatever" ..
   - make
   - ls
+  - ls "${HOME}/.whatever"
 
