@@ -114,7 +114,7 @@ endif()
 we_target_add_cflags(${UCDN_TARGET}
 	PRIVATE ${UCDN_CFLAGS})
 we_target_add_ldflags(${UCDN_TARGET}
-	PRIVATE ${UCDN_LDFLAGS})
+	PRIVATE ${UCDN_CFLAGS} ${UCDN_LDFLAGS})
 
 we_target_export(${UCDN_TAG_NAME})
 
