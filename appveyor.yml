@@ -23,11 +23,17 @@ build_script:
   - cmake -G "Visual Studio 14 2015" -DCMAKE_GENERATOR_PLATFORM="x64" -DWHATEVER_CACHE_DIR="%USERPROFILE%/.whatever" ..
   - msbuild PACKAGE.vcxproj /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cd ..
-  - dir "%USERPROFILE%/.whatever"
 
 after_build:
   - ps: Get-ChildItem .\build32\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem .\build32\ucdn*.exe | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem .\build64\ucdn*.7z | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
   - ps: Get-ChildItem .\build64\ucdn*.exe | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
+test_script:
+  - cd build32
+  - msbuild RUN_TESTS.vcxproj /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cd ../build64
+  - msbuild RUN_TESTS.vcxproj /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cd ..
 

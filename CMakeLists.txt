@@ -51,7 +51,7 @@ if(NOT MSVC)
 	endif()
 endif()
 
-#
+# ------------------------------
 # Generated Data
 #
 
@@ -88,17 +88,28 @@ include(WhatEver-Targets)
 
 option(BUILD_UCDN_SHARED "Build UCDN Shared Library" ON)
 option(BUILD_UCDN_STATIC "Build UCDN Static Library" ON)
+cmake_dependent_option(BUILD_TESTS "Build Tests" ON "NOT CMAKE_TOOLCHAIN_FILE" OFF)
 	
 we_target_build_library(UCDN_TARGET ${PROJECT_NAME} ${UCDN_SOVERSION}
 	${UCDN_SOURCE} ${UCDN_HEADERS} ${UCDN_GENERATED}
 	EXPORT include
 	TAG ${UCDN_TAG_NAME})
-we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test"
-	${UCDN_TEST_SOURCE}
-	LIBS ${UCDN_TARGET_SHARED})
-we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test-static"
-	${UCDN_TEST_SOURCE}
-	LIBS ${UCDN_TARGET_STATIC})
+
+if(BUILD_UCDN_SHARED)
+	we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test"
+		${UCDN_TEST_SOURCE}
+		LIBS ${UCDN_TARGET_SHARED})
+endif()
+if(BUILD_UCDN_STATIC AND NOT BUILD_UCDN_SHARED)
+	we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test"
+		${UCDN_TEST_SOURCE}
+		LIBS ${UCDN_TARGET_STATIC})
+elseif(BUILD_UCDN_STATIC AND BUILD_TESTS)
+	we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test-static"
+		${UCDN_TEST_SOURCE}
+		LIBS ${UCDN_TARGET_STATIC}
+		NO_INSTALL)
+endif()
 
 we_target_add_cflags(${UCDN_TARGET}
 	PRIVATE ${UCDN_CFLAGS})
@@ -106,6 +117,19 @@ we_target_add_ldflags(${UCDN_TARGET}
 	PRIVATE ${UCDN_LDFLAGS})
 
 we_target_export(${UCDN_TAG_NAME})
+
+# ------------------------------
+# Testing
+#
+
+if(BUILD_TESTS)
+	enable_testing()
+	foreach(test ${UCDN_TARGET_EXECUTABLE})
+		add_test(NAME ${test}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+			COMMAND ./${test} 200)
+	endforeach()
+endif()
 
 # ------------------------------
 # Package Targets
