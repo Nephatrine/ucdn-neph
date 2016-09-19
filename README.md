@@ -1,6 +1,6 @@
-| Linux/GCC | Windows/MSVC | Binaries |
-| :---------: | :------------: | :--------: |
-| [![Linux Status](https://travis-ci.org/Nephatrine/ucdn-neph.svg?branch=master)](https://travis-ci.org/Nephatrine/ucdn-neph) | [![Windows Build Status](https://ci.appveyor.com/api/projects/status/lpwxdh7nsswly6jf/branch/master?svg=true)](https://ci.appveyor.com/project/Nephatrine/ucdn-neph) | [![Binaries](https://img.shields.io/badge/bin-MS%20VC14-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/ucdn-neph/build/artifacts)
+| Linux/OSX | Windows | Artifacts | Coverage |
+| :---------: | :------------: | :--------: | :--------: |
+| [![travis](https://travis-ci.org/Nephatrine/ucdn-neph.svg?branch=master)](https://travis-ci.org/Nephatrine/ucdn-neph) | [![appveyor](https://ci.appveyor.com/api/projects/status/lpwxdh7nsswly6jf/branch/master?svg=true)](https://ci.appveyor.com/project/Nephatrine/ucdn-neph) | [![artifacts](https://img.shields.io/badge/bin-MSVC14-brightgreen.svg)](https://ci.appveyor.com/project/Nephatrine/ucdn-neph/build/artifacts) | [![codecov](https://codecov.io/gh/Nephatrine/ucdn-neph/branch/master/graph/badge.svg)](https://codecov.io/gh/Nephatrine/ucdn-neph)
 
 This is my personal fork. It mostly contains changes to the build system to
 bring it more in-line with other tools I use and integrate more cleanly into my
