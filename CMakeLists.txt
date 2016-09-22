@@ -56,6 +56,7 @@ endif()
 #
 
 include(WhatEver-Generate)
+
 find_package(PythonInterp 2.7 REQUIRED)
 
 set(UCDN_UNICODE_VERSION "9.0.0" CACHE STRING "Unicode Data Version")
@@ -133,24 +134,20 @@ if(BUILD_TESTS)
 	endforeach()
 endif()
 
-get_property(TIDY_TARGET_INCLUDES TARGET ${PROJECT_NAME} PROPERTY INCLUDE_DIRECTORIES)
-foreach(incdir ${TIDY_TARGET_INCLUDES})
-	if(NOT "${incdir}" MATCHES "INSTALL_INTERFACE")
-		string(REPLACE "$<BUILD_INTERFACE:" "" INCDIR ${incdir})
-		string(REPLACE ">" "" INCDIR ${incdir})
-		list(APPEND TIDY_INCLUDES "-I${incdir}")
-	endif()
-endforeach()
-add_custom_target(tidy
-	COMMAND clang-tidy ${UCDN_SOURCE} -header-filter=.* -checks=* -- ${UCDN_CFLAGS} ${TIDY_INCLUDES}
-	WORKING_DIRECTORY ${CMAKE_CURRENT_BIN_DIR}
-	COMMENT "[CLANG-TIDY] Running")
+# ------------------------------
+# Static Analysis
+#
+
+include(WhatEver-Tools)
+
+we_tool_clang_tidy(tidy ${UCDN_TARGET})
 
 # ------------------------------
 # Package Targets
 #
 
 include(WhatEver-Package)
+
 we_package(${UCDN_TAG_NAME}
 	CATEGORY devel DESC "Unicode Database & Normalization"
 	VENDOR Nephatrine CONTACT nephatrine@gmail.com
