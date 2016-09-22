@@ -24,7 +24,7 @@ UCDN was written by [Grigori Goronzy](https://github.com/grigorig) <<greg@kinoho
 
 * UCDN is published under the [ISC license](LICENSE.md).
 * The Python script required for parsing Unicode database files is licensed
-  under the [PSF license](PYTHON-LICENSE).
+  under the [PSF license](config/scripts/PYTHON-LICENSE).
 
 **Other Links:**
 
