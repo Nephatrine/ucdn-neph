@@ -29,6 +29,7 @@ int main(int argc, char **argv)
 
     codepoint = (uint32_t)strtol(argv[1], NULL, 0);
 
+	printf("unicode %s\n", ucdn_get_unicode_version());
     printf("codepoint U+%04X\n", codepoint);
     printf("combining_class %d\n", ucdn_get_combining_class(codepoint));
     printf("general_category %d\n", ucdn_get_general_category(codepoint));
@@ -49,6 +50,7 @@ int main(int argc, char **argv)
     printf("eastasian_width %d\n", ucdn_get_east_asian_width(codepoint));
     printf("script %d\n", ucdn_get_script(codepoint));
     printf("linebreak_class %d\n", ucdn_get_linebreak_class(codepoint));
+	printf("resolved_linebreak_class %d\n", ucdn_get_resolved_linebreak_class(codepoint));
     printf("bidi_class %d\n", ucdn_get_bidi_class(codepoint));
 
     if ((len = ucdn_compat_decompose(codepoint, decomposed))) {
