@@ -125,11 +125,26 @@ we_target_export(${UCDN_TAG_NAME})
 if(BUILD_TESTS)
 	enable_testing()
 	foreach(test ${UCDN_TARGET_EXECUTABLE})
-		add_test(NAME ${test}
-			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-			COMMAND ./${test} 200)
+		foreach(ucode 40 160 903 8512 44033 50024 70475)
+			add_test(NAME "${test}_${ucode}"
+				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+				COMMAND ./${test} ${ucode})
+		endforeach()
 	endforeach()
 endif()
+
+get_property(TIDY_TARGET_INCLUDES TARGET ${PROJECT_NAME} PROPERTY INCLUDE_DIRECTORIES)
+foreach(incdir ${TIDY_TARGET_INCLUDES})
+	if(NOT "${incdir}" MATCHES "INSTALL_INTERFACE")
+		string(REPLACE "$<BUILD_INTERFACE:" "" INCDIR ${incdir})
+		string(REPLACE ">" "" INCDIR ${incdir})
+		list(APPEND TIDY_INCLUDES "-I${incdir}")
+	endif()
+endforeach()
+add_custom_target(tidy
+	COMMAND clang-tidy ${UCDN_SOURCE} -header-filter=.* -checks=* -- ${UCDN_CFLAGS} ${TIDY_INCLUDES}
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BIN_DIR}
+	COMMENT "[CLANG-TIDY] Running")
 
 # ------------------------------
 # Package Targets
