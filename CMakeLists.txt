@@ -121,7 +121,7 @@ cmake_dependent_option(BUILD_TESTS "Build Tests" ON "NOT CMAKE_TOOLCHAIN_FILE" O
 if(BUILD_TESTS)
 	enable_testing()
 	foreach(test ${UCDN_TARGET_EXECUTABLE})
-		foreach(ucode 40 41 160 903 8512 44033 50024 70475 1114113)
+		foreach(ucode 0 10 40 41 133 160 167 903 8512 44033 50024 70475 1114113)
 			add_test(NAME "${test}_${ucode}"
 				WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 				COMMAND ./${test} ${ucode})
