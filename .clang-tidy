@@ -1,4 +1,5 @@
 ---
 Checks:          '*,-google-readability-braces-around-statements,-readability-braces-around-statements'
+HeaderFilterRegex: '.*'
 ...
 
