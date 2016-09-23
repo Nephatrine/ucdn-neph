@@ -144,12 +144,12 @@ static int hangul_pair_decompose(uint32_t code, uint32_t *a, uint32_t *b)
         *a = SBASE + (si / TCOUNT) * TCOUNT;
         *b = TBASE + (si % TCOUNT);
         return 3;
-    } else {
-        /* L,V */
-        *a = LBASE + (si / NCOUNT);
-        *b = VBASE + (si % NCOUNT) / TCOUNT;
-        return 2;
-    }
+	}
+
+    /* L,V */
+    *a = LBASE + (si / NCOUNT);
+    *b = VBASE + (si % NCOUNT) / TCOUNT;
+    return 2;
 }
 
 static int hangul_pair_compose(uint32_t *code, uint32_t a, uint32_t b)
@@ -165,13 +165,13 @@ static int hangul_pair_compose(uint32_t *code, uint32_t a, uint32_t b)
         /* LV,T */
         *code = a + (b - TBASE);
         return 3;
-    } else {
-        /* L,V */
-        int li = a - LBASE;
-        int vi = b - VBASE;
-        *code = SBASE + li * NCOUNT + vi * TCOUNT;
-        return 2;
-    }
+	}
+
+    /* L,V */
+    int li = a - LBASE;
+    int vi = b - VBASE;
+    *code = SBASE + li * NCOUNT + vi * TCOUNT;
+    return 2;
 }
 
 static uint32_t decode_utf16(const unsigned short **code_ptr)
@@ -181,11 +181,11 @@ static uint32_t decode_utf16(const unsigned short **code_ptr)
     if ((code[0] & 0xd800) != 0xd800) {
         *code_ptr += 1;
         return (uint32_t)code[0];
-    } else {
-        *code_ptr += 2;
-        return 0x10000 + ((uint32_t)code[1] - 0xdc00) +
-            (((uint32_t)code[0] - 0xd800) << 10);
     }
+	
+    *code_ptr += 2;
+    return 0x10000 + ((uint32_t)code[1] - 0xdc00) +
+        (((uint32_t)code[0] - 0xd800) << 10);
 }
 
 const char *ucdn_get_unicode_version(void)
@@ -273,26 +273,28 @@ uint32_t ucdn_mirror(uint32_t code)
 
     if (res == NULL)
         return code;
-    else
-        return res->to;
+
+    return res->to;
 }
 
 uint32_t ucdn_paired_bracket(uint32_t code)
 {
     BracketPair *res = search_bp(code);
-    if (res == NULL)
+    
+	if (res == NULL)
         return code;
-    else
-        return res->to;
+    
+	return res->to;
 }
 
 int ucdn_paired_bracket_type(uint32_t code)
 {
     BracketPair *res = search_bp(code);
-    if (res == NULL)
+    
+	if (res == NULL)
         return UCDN_BIDI_PAIRED_BRACKET_TYPE_NONE;
-    else
-        return res->type;
+    
+	return res->type;
 }
 
 int ucdn_decompose(uint32_t code, uint32_t *a, uint32_t *b)
