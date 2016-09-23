@@ -32,10 +32,6 @@ cache:
   directories:
     - $HOME/.whatever
 
-install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew outdated cmake --verbose || brew upgrade cmake; fi
-
 script:
   - mkdir build
   - cd build
