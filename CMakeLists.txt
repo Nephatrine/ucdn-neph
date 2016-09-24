@@ -109,7 +109,8 @@ we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-info"
 	LIBS ${PROJECT_NAME})
 we_target_build_executable(UCDN_TEST "test-${PROJECT_NAME}"
 	${TEST_UCDN_SOURCE}
-	LIBS ${PROJECT_NAME})
+	LIBS ${PROJECT_NAME}
+	NO_INSTALL)
 
 if(TARGET ${PROJECT_NAME}_static)
 	we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-info-static"
