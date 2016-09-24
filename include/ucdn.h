@@ -23,13 +23,16 @@ extern "C" {
 
 #include <stdint.h>
 #include "ucdn_export.h"
+#include "ucdn_macros.h"
 
+	/*
 #define UCDN_EAST_ASIAN_F 0
 #define UCDN_EAST_ASIAN_H 1
 #define UCDN_EAST_ASIAN_W 2
 #define UCDN_EAST_ASIAN_NA 3
 #define UCDN_EAST_ASIAN_A 4
 #define UCDN_EAST_ASIAN_N 5
+
 
 #define UCDN_SCRIPT_COMMON 0
 #define UCDN_SCRIPT_LATIN 1
@@ -169,6 +172,7 @@ extern "C" {
 #define UCDN_SCRIPT_NEWA 135
 #define UCDN_SCRIPT_OSAGE 136
 #define UCDN_SCRIPT_TANGUT 137
+*/
 
 #define UCDN_LINEBREAK_CLASS_OP 0
 #define UCDN_LINEBREAK_CLASS_CL 1

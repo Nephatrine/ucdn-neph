@@ -43,7 +43,7 @@ typedef struct {
     short count, index;
 } Reindex;
 
-#include "internal/unicodedata_db.h"
+#include "internal/ucdn_data.h"
 
 /* constants required for Hangul (de)composition */
 #define SBASE 0xAC00

@@ -25,8 +25,11 @@ list(APPEND UCDN_SOURCE
 list(APPEND UCDN_HEADERS
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/ucdn.h")
 
-list(APPEND UCDN_TEST_SOURCE
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/ucdn-test.c")
+list(APPEND UCDN_INFO_SOURCE
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/ucdn-info.c")
+
+list(APPEND TEST_UCDN_SOURCE
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/test-ucdn.c")
 
 # ------------------------------
 # Configuration
@@ -77,9 +80,16 @@ we_download_unicode(UCDN_UNICODE_FILES ${UCDN_UNICODE_VERSION}
 	UnicodeData.txt
 	Unihan.zip)
 
-we_generate_from_script(UCDN_GENERATED makeunicodedata.py
-	include/internal/unicodedata_db.h ${WHATEVER_CACHE_DIR} ${UCDN_UNICODE_VERSION}
-	DEPENDS ${UCDN_UNICODE_FILES})
+we_download_unicode(UCDN_PROPERTY_VALUES ${UCDN_UNICODE_VERSION}
+	PropertyValueAliases.txt)
+
+we_generate_from_script(UCDN_GENERATED create_ucdn_data.py
+	include/internal/ucdn_data.h ${WHATEVER_CACHE_DIR} ${UCDN_UNICODE_VERSION}
+	DEPENDS ${UCDN_UNICODE_FILES} ${UCDN_PROPERTY_VALUES})
+
+we_generate_from_script(UCDN_GENERATED create_ucdn_macros.py
+	include/ucdn_macros.h ${WHATEVER_CACHE_DIR} ${UCDN_UNICODE_VERSION}
+	DEPENDS ${UCDN_PROPERTY_VALUES})
 
 # ------------------------------
 # Define Targets
@@ -94,20 +104,27 @@ we_target_build_library(UCDN_TARGET ${PROJECT_NAME} ${UCDN_SOVERSION}
 	${UCDN_SOURCE} ${UCDN_HEADERS} ${UCDN_GENERATED}
 	EXPORT include
 	TAG ${UCDN_TAG_NAME})
-we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test"
-	${UCDN_TEST_SOURCE}
+we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-info"
+	${UCDN_INFO_SOURCE}
+	LIBS ${PROJECT_NAME})
+we_target_build_executable(UCDN_TEST "test-${PROJECT_NAME}"
+	${TEST_UCDN_SOURCE}
 	LIBS ${PROJECT_NAME})
 
 if(TARGET ${PROJECT_NAME}_static)
-	we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-test-static"
-		${UCDN_TEST_SOURCE}
+	we_target_build_executable(UCDN_TARGET "${PROJECT_NAME}-info-static"
+		${UCDN_INFO_SOURCE}
+		LIBS ${PROJECT_NAME}_static
+		NO_INSTALL)
+	we_target_build_executable(UCDN_TEST "test-${PROJECT_NAME}-static"
+		${TEST_UCDN_SOURCE}
 		LIBS ${PROJECT_NAME}_static
 		NO_INSTALL)
 endif()
 
-we_target_add_cflags(${UCDN_TARGET}
+we_target_add_cflags(${UCDN_TARGET} ${UCDN_TEST}
 	PRIVATE ${UCDN_CFLAGS})
-we_target_add_ldflags(${UCDN_TARGET}
+we_target_add_ldflags(${UCDN_TARGET} ${UCDN_TEST}
 	PRIVATE ${UCDN_CFLAGS} ${UCDN_LDFLAGS})
 
 we_target_export(${UCDN_TAG_NAME})
@@ -127,6 +144,11 @@ if(BUILD_TESTS)
 				COMMAND ./${test} ${ucode})
 		endforeach()
 	endforeach()
+	foreach(test ${UCDN_TEST})
+		add_test(NAME ${test}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+			COMMAND ./${test})
+	endforeach()
 endif()
 
 # ------------------------------
@@ -135,6 +157,7 @@ endif()
 
 include(WhatEver-Tools)
 
+we_tool_clang_format(format test-${PROJECT_NAME})
 we_tool_clang_tidy(tidy ${UCDN_TARGET})
 
 # ------------------------------
