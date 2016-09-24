@@ -42,7 +42,7 @@ we_config_require_standard(C 99)
 if(NOT MSVC)
 	option(BUILD_ALLOW_SHLIB_UNDEFINED "enable if your system spits out linker errors" OFF)
 
-	we_config_has_cflags(UCDN_CFLAGS -Wall -Werror -pedantic -march=native)
+	we_config_has_cflags(UCDN_CFLAGS -Wall -Wextra -pedantic -march=native)
 	we_config_has_ldflags(UCDN_LDFLAGS -Wl,--as-needed -Wl,--no-undefined)
 
 	if(NOT BUILD_ALLOW_SHLIB_UNDEFINED)
