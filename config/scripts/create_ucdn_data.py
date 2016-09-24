@@ -84,6 +84,7 @@ def open_data(template, version):
         return open(local, 'rb')
 
 EASTASIANWIDTH_NAMES = []
+LINEBREAK_CLASSES = []
 SCRIPT_NAMES = []
 
 with open_data(PROPERTY_VALUES, UNIDATA_VERSION) as file:
@@ -91,6 +92,9 @@ with open_data(PROPERTY_VALUES, UNIDATA_VERSION) as file:
         m = re.match("^ea\s*;\s*([^\s]+)", line)
         if m:
             EASTASIANWIDTH_NAMES.append(m.group(1))
+        m = re.match("^lb\s*;\s*([^\s]+)", line)
+        if m:
+            LINEBREAK_CLASSES.append(m.group(1))
         m = re.match("^sc\s*;\s*[^\s]+\s*;\s*([^\s]+)", line)
         if m:
             SCRIPT_NAMES.append(m.group(1))
@@ -133,15 +137,6 @@ BIDIRECTIONAL_NAMES = [ "L", "LRE", "LRO", "R", "AL", "RLE", "RLO",
     "ON" , "LRI", "RLI", "FSI", "PDI"]
 
 MANDATORY_LINE_BREAKS = [ "BK", "CR", "LF", "NL" ]
-
-# the first 27 classes ordered according to pair table from UAX 14
-LINEBREAK_CLASSES = [ "OP", "CL", "CP", "QU", "GL", "NS", "EX", "SY",
-    "IS", "PR", "PO", "NU", "AL", "HL", "ID", "IN", "HY", "BA", "BB",
-    "B2", "ZW", "CM", "WJ", "H2", "H3", "JL", "JV", "JT", "RI",
-    # end of pair table
-    "AI", "BK", "CB", "CJ", "CR", "HL", "LF", "NL", "RI", "SA", "SG",
-    "SP", "XX"
-    ]
 
 BIDI_PAIRED_BRACKET_TYPES = [ "o", "c", "n"]
 

@@ -16,7 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "ucdn.h"
+#include <ucdn.h>
 
 int main(int argc, char **argv)
 {
@@ -25,10 +25,10 @@ int main(int argc, char **argv)
     uint32_t decomposed[18];
 
     if (argc < 2)
-	{
-		printf("syntax: %s [codepoint]\n", argv[0]);
+    {
+        printf("syntax: %s [codepoint]\n", argv[0]);
         return EXIT_FAILURE;
-	}
+    }
 
     codepoint = (uint32_t)strtol(argv[1], NULL, 0);
 
@@ -51,16 +51,7 @@ int main(int argc, char **argv)
 
     printf("eastasian_width %d\n", ucdn_get_east_asian_width(codepoint));
     printf("script %d\n", ucdn_get_script(codepoint));
-
-	if(ucdn_get_linebreak_class(codepoint) != ucdn_get_resolved_linebreak_class(codepoint))
-	{
-	    printf("linebreak_class %d (%d)\n", ucdn_get_linebreak_class(codepoint), ucdn_get_resolved_linebreak_class(codepoint));
-	}
-	else
-	{
-		printf("linebreak_class %d\n", ucdn_get_linebreak_class(codepoint));
-	}
-
+    printf("linebreak_class %d\n", ucdn_get_linebreak_class(codepoint));
     printf("bidi_class %d\n", ucdn_get_bidi_class(codepoint));
 
     if ((len = ucdn_compat_decompose(codepoint, decomposed))) {

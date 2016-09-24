@@ -62,6 +62,7 @@ with open_data(PROPERTY_VALUES, UNIDATA_VERSION) as file:
     print("#define %s 1" % GENMACRO, file=fp)
     print(file=fp)
     ea_class = 0
+    lb_class = 0
     sc_class = 0
     for line in file:
         m = re.match("^ccc\s*;\s*([0-9]+)\s*;\s*([^\s]+)\s*;\s*([^\s]+)", line)
@@ -71,6 +72,10 @@ with open_data(PROPERTY_VALUES, UNIDATA_VERSION) as file:
         if m:
             print("#define UCDN_EAST_ASIAN_%s\t%s\t// %s" % (m.group(2).upper(), ea_class, m.group(1)), file=fp)
             ea_class += 1
+        m = re.match("^lb\s*;\s*([^\s]+)\s*;\s*([^\s]+)", line)
+        if m:
+            print("#define UCDN_LINEBREAK_%s\t%s\t// %s" % (m.group(2).upper(), lb_class, m.group(1)), file=fp)
+            lb_class += 1 
         m = re.match("^sc\s*;\s*([^\s]+)\s*;\s*([^\s]+)", line)
         if m:
             print("#define UCDN_SCRIPT_%s\t%s\t// %s" % (m.group(2).upper(), sc_class, m.group(1)), file=fp)

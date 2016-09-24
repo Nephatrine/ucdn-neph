@@ -144,7 +144,7 @@ static int hangul_pair_decompose(uint32_t code, uint32_t *a, uint32_t *b)
         *a = SBASE + (si / TCOUNT) * TCOUNT;
         *b = TBASE + (si % TCOUNT);
         return 3;
-	}
+    }
 
     /* L,V */
     *a = LBASE + (si / NCOUNT);
@@ -165,7 +165,7 @@ static int hangul_pair_compose(uint32_t *code, uint32_t a, uint32_t b)
         /* LV,T */
         *code = a + (b - TBASE);
         return 3;
-	}
+    }
 
     /* L,V */
     int li = a - LBASE;
@@ -182,7 +182,7 @@ static uint32_t decode_utf16(const unsigned short **code_ptr)
         *code_ptr += 1;
         return (uint32_t)code[0];
     }
-	
+    
     *code_ptr += 2;
     return 0x10000 + ((uint32_t)code[1] - 0xdc00) +
         (((uint32_t)code[0] - 0xd800) << 10);
@@ -234,25 +234,33 @@ int ucdn_get_resolved_linebreak_class(uint32_t code)
 
     switch (record->linebreak_class)
     {
-    case UCDN_LINEBREAK_CLASS_AI:
-    case UCDN_LINEBREAK_CLASS_SG:
-    case UCDN_LINEBREAK_CLASS_XX:
-        return UCDN_LINEBREAK_CLASS_AL;
+    case UCDN_LINEBREAK_AMBIGUOUS:
+    case UCDN_LINEBREAK_SURROGATE:
+    case UCDN_LINEBREAK_UNKNOWN:
+        return UCDN_LINEBREAK_ALPHABETIC;
+    
+    case UCDN_LINEBREAK_COMPLEX_CONTEXT:
+        switch (record->category)
+        {
+        case UCDN_GENERAL_CATEGORY_MC:
+        case UCDN_GENERAL_CATEGORY_MN:
+            return UCDN_LINEBREAK_COMBINING_MARK;
 
-    case UCDN_LINEBREAK_CLASS_SA:
-        if (record->category == UCDN_GENERAL_CATEGORY_MC ||
-                record->category == UCDN_GENERAL_CATEGORY_MN)
-            return UCDN_LINEBREAK_CLASS_CM;
-        return UCDN_LINEBREAK_CLASS_AL;
+        default:
+            return UCDN_LINEBREAK_ALPHABETIC;
+        }
 
-    case UCDN_LINEBREAK_CLASS_CJ:
-        return UCDN_LINEBREAK_CLASS_NS;
+    case UCDN_LINEBREAK_CONDITIONAL_JAPANESE_STARTER:
+        return UCDN_LINEBREAK_NONSTARTER;
 
-    case UCDN_LINEBREAK_CLASS_CB:
-        return UCDN_LINEBREAK_CLASS_B2;
+    /* might not be best way to handle? */
+    case UCDN_LINEBREAK_CONTINGENT_BREAK:
+        return UCDN_LINEBREAK_BREAK_BOTH;
 
-    case UCDN_LINEBREAK_CLASS_NL:
-        return UCDN_LINEBREAK_CLASS_BK;
+    case UCDN_LINEBREAK_CARRIAGE_RETURN:
+    case UCDN_LINEBREAK_LINE_FEED:
+    case UCDN_LINEBREAK_NEXT_LINE:
+        return UCDN_LINEBREAK_MANDATORY_BREAK;
 
     default:
         return record->linebreak_class;
@@ -281,20 +289,20 @@ uint32_t ucdn_paired_bracket(uint32_t code)
 {
     BracketPair *res = search_bp(code);
     
-	if (res == NULL)
+    if (res == NULL)
         return code;
     
-	return res->to;
+    return res->to;
 }
 
 int ucdn_paired_bracket_type(uint32_t code)
 {
     BracketPair *res = search_bp(code);
     
-	if (res == NULL)
+    if (res == NULL)
         return UCDN_BIDI_PAIRED_BRACKET_TYPE_NONE;
     
-	return res->type;
+    return res->type;
 }
 
 int ucdn_decompose(uint32_t code, uint32_t *a, uint32_t *b)
